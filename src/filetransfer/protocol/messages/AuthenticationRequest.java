@@ -25,9 +25,10 @@ public class AuthenticationRequest extends Message {
         return String.format("%s&%s", username, password);
     }
 
-    public static AuthenticationRequest from(String data) {
-        String username = data.split("&")[0];
-        String password = data.split("&")[1];
+    public static AuthenticationRequest from(Message message) {
+        String messageData = message.getDataAsString();
+        String username = messageData.split("&")[0];
+        String password = messageData.split("&")[1];
         return new AuthenticationRequest(username, password);
     }
 }

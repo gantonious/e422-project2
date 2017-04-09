@@ -12,7 +12,7 @@ public class FileRequest extends Message {
         return getDataAsString();
     }
 
-    public static FileRequest from(String data) {
-        return new FileRequest(data);
+    public static FileRequest from(Message message) {
+        return new FileRequest(message.getDataAsString());
     }
 }
