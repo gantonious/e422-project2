@@ -1,4 +1,4 @@
-package filetransfer.protocol;
+package filetransfer.protocol.messages;
 
 import java.nio.ByteBuffer;
 
@@ -20,5 +20,13 @@ public class Message {
                          .putInt(data.length)
                          .put(data)
                          .array();
+    }
+
+    public int getMessageType() {
+        return messageType;
+    }
+
+    public byte[] getData() {
+        return data;
     }
 }
