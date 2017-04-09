@@ -1,7 +1,7 @@
 package filetransfer.transport;
 
 import filetransfer.InputOutputSource;
-import shared.exceptions.SocketIOException;
+import filetransfer.shared.exceptions.SocketIOException;
 
 import java.io.IOException;
 import java.net.Socket;

@@ -2,7 +2,7 @@ package filetransfer.protocol.server;
 
 import filetransfer.InputOutputSource;
 import filetransfer.InputOutputSourceFactory;
-import shared.exceptions.SocketIOException;
+import filetransfer.shared.exceptions.SocketIOException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
