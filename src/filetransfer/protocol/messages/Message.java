@@ -9,6 +9,10 @@ public class Message {
     private int messageType;
     private String data;
 
+    public Message(int messageType) {
+        this(messageType, "");
+    }
+
     public Message(int messageType, String data) {
         this.messageType = messageType;
         this.data = data;
