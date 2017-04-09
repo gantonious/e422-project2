@@ -1,4 +1,4 @@
-package filetransfer;
+package encryptedfiletransfer.filetransfer;
 
 import java.nio.ByteBuffer;
 
