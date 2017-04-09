@@ -9,7 +9,7 @@ public class FileRequest extends Message {
     }
 
     public String getFileName() {
-        return getData();
+        return getDataAsString();
     }
 
     public static FileRequest from(String data) {
