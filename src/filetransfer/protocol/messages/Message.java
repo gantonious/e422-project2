@@ -7,18 +7,20 @@ import java.nio.ByteBuffer;
  */
 public class Message {
     private int messageType;
-    private byte[] data;
+    private String data;
 
-    public Message(int messageType, byte[] data) {
+    public Message(int messageType, String data) {
         this.messageType = messageType;
         this.data = data;
     }
 
     public byte[] toByteArray() {
-        return ByteBuffer.allocate(8 + data.length)
+        int dataLength = getDataAsBytes().length;
+
+        return ByteBuffer.allocate(8 + dataLength)
                          .putInt(messageType)
-                         .putInt(data.length)
-                         .put(data)
+                         .putInt(dataLength)
+                         .put(getDataAsBytes())
                          .array();
     }
 
@@ -26,7 +28,11 @@ public class Message {
         return messageType;
     }
 
-    public byte[] getData() {
+    public String getData() {
         return data;
+    }
+
+    public byte[] getDataAsBytes() {
+        return getData().getBytes();
     }
 }
