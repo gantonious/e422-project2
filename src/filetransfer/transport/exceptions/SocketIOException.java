@@ -1,4 +1,4 @@
-package encryptedfiletransfer.transport.exceptions;
+package filetransfer.transport.exceptions;
 
 /**
  * Created by George on 2017-04-09.

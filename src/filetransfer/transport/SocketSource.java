@@ -1,7 +1,7 @@
-package encryptedfiletransfer.transport;
+package filetransfer.transport;
 
-import encryptedfiletransfer.InputOutputSource;
-import encryptedfiletransfer.transport.exceptions.SocketIOException;
+import filetransfer.InputOutputSource;
+import filetransfer.transport.exceptions.SocketIOException;
 
 import java.io.IOException;
 import java.net.Socket;

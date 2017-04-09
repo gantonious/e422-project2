@@ -1,4 +1,4 @@
-package encryptedfiletransfer;
+package filetransfer;
 
 /**
  * Created by George on 2017-04-09.
