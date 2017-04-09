@@ -1,4 +1,4 @@
-package filetransfer.transport.exceptions;
+package shared.exceptions;
 
 /**
  * Created by George on 2017-04-09.
