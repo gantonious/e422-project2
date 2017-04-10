@@ -35,7 +35,7 @@ public class FileClient {
 
     private void confirmAcknowledgement() {
         Message response = fileTransferService.readMessage();
-        if (response.getMessageType() != MessageTypes.AUTHENTICATION_ACKNOWLEDGMENT) {
+        if (response.getMessageType() != MessageTypes.ACCESS_GRANTED) {
             throw new AuthenticationFailedException();
         }
     }
