@@ -2,6 +2,7 @@ package filetransfer.server;
 
 import filetransfer.InputOutputSource;
 import filetransfer.InputOutputSourceFactory;
+import filetransfer.authentication.AuthenticationService;
 import filetransfer.protocol.FileTransferService;
 import filetransfer.shared.exceptions.SocketIOException;
 
@@ -16,15 +17,22 @@ public class FileServer {
     private static final int DEFAULT_PORT = 16000;
 
     private ServerSocket serverSocket;
+    private AuthenticationService authenticationService;
     private InputOutputSourceFactory inputOutputSourceFactory;
 
-    public FileServer(InputOutputSourceFactory inputOutputSourceFactory) {
+    public FileServer(AuthenticationService authenticationService,
+                      InputOutputSourceFactory inputOutputSourceFactory) {
+        this.authenticationService = authenticationService;
+        this.inputOutputSourceFactory = inputOutputSourceFactory;
+        this.serverSocket = buildServerSocket();
+    }
+
+    private ServerSocket buildServerSocket() {
         try {
-            serverSocket = new ServerSocket(DEFAULT_PORT);
+            return new ServerSocket(DEFAULT_PORT);
         } catch (IOException e) {
             throw new SocketIOException(e.getMessage());
         }
-        this.inputOutputSourceFactory = inputOutputSourceFactory;
     }
 
     public void run() {
@@ -33,7 +41,7 @@ public class FileServer {
                 Socket clientSocket = serverSocket.accept();
                 InputOutputSource socketIOSource = inputOutputSourceFactory.buildInputOutputSourceFrom(clientSocket);
                 FileTransferService fileTransferService = new FileTransferService(socketIOSource);
-                ClientHandler clientHandler = new ClientHandler(fileTransferService);
+                ClientHandler clientHandler = new ClientHandler(authenticationService, fileTransferService);
                 Thread clientHandlerThread = new Thread(clientHandler::serveClient);
                 clientHandlerThread.start();
             } catch (IOException e) {

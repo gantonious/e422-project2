@@ -1,4 +1,5 @@
 import filetransfer.InputOutputSourceFactory;
+import filetransfer.authentication.AuthenticationService;
 import filetransfer.server.FileServer;
 import filetransfer.transport.SocketSource;
 
@@ -7,8 +8,9 @@ import filetransfer.transport.SocketSource;
  */
 public class ServerMain {
     public static void main(String[] args) {
+        AuthenticationService authenticationService = new AuthenticationService();
         InputOutputSourceFactory ioFactory = SocketSource::new;
-        FileServer fileServer = new FileServer(ioFactory);
+        FileServer fileServer = new FileServer(authenticationService, ioFactory);
 
         fileServer.run();
     }

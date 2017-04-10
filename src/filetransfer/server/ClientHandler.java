@@ -1,5 +1,6 @@
 package filetransfer.server;
 
+import filetransfer.authentication.AuthenticationService;
 import filetransfer.protocol.FileTransferService;
 import filetransfer.protocol.messages.AuthenticationRequest;
 import filetransfer.protocol.messages.FileRequest;
@@ -11,9 +12,12 @@ import filetransfer.protocol.messages.MessageTypes;
  */
 public class ClientHandler {
     private String fileSource = ".";
+    private AuthenticationService authenticationService;
     private FileTransferService fileTransferService;
 
-    public ClientHandler(FileTransferService fileTransferService) {
+    public ClientHandler(AuthenticationService authenticationService,
+                         FileTransferService fileTransferService) {
+        this.authenticationService = authenticationService;
         this.fileTransferService = fileTransferService;
     }
 
