@@ -12,7 +12,7 @@ import filetransfer.utils.FileUtils;
  */
 public class FileClient {
     private FileTransferService fileTransferService;
-    private String downloadDirectiory = "./downloads/";
+    private String downloadDirectory = "./downloads/";
 
     public FileClient(FileTransferService fileTransferService) {
         this.fileTransferService = fileTransferService;
@@ -54,7 +54,7 @@ public class FileClient {
         guardAgainstWrongMessageType(nextMessage, MessageTypes.FILE_RESPONSE);
 
         FileResponse fileResponse = FileResponse.from(nextMessage);
-        String outputFile = downloadDirectiory + fileName;
+        String outputFile = downloadDirectory + fileName;
         FileUtils.writeByteArrayTo(outputFile, fileResponse.getData());
     }
 
