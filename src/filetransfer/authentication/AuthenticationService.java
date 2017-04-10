@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     private boolean doesUserExist(String username) {
+        System.out.println(users.containsKey(username));
         return users.containsKey(username);
     }
 
@@ -50,14 +52,14 @@ public class AuthenticationService implements IAuthenticationService {
         SecureRandom secureRandom = new SecureRandom();
         byte[] rawSalt = new byte[length];
         secureRandom.nextBytes(rawSalt);
-        return new String(rawSalt);
+        return Base64.getEncoder().encodeToString(rawSalt);
     }
 
     private String hashStringWithSha256(String string) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] rawHashedString = md.digest(string.getBytes());
-            return new String(rawHashedString);
+            return Base64.getEncoder().encodeToString(rawHashedString);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException();
         }
@@ -87,6 +89,7 @@ public class AuthenticationService implements IAuthenticationService {
     private void saveUser(User user) {
         try {
             String serializedUser = buildLineFromUser(user);
+            System.out.println(serializedUser);
             FileWriter fw = new FileWriter(USER_ACCOUNTS_FILE, true);
             fw.write(serializedUser);
             fw.write("\n");
@@ -97,7 +100,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     private User buildUserFromLine(String line) {
-        String[] lineParts = line.split("|");
+        String[] lineParts = line.split("\\|");
         return new User(lineParts[0], lineParts[1], lineParts[2]);
     }
 

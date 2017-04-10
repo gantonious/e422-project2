@@ -3,3 +3,4 @@
 *.class
 **/srv/*
 **/downloads/*
+**/accounts.txt
