@@ -23,11 +23,20 @@ public class Message {
     }
 
     public byte[] toByteArray() {
-        return ByteBuffer.allocate(8 + data.length)
+        int frameSize = 8 + data.length;
+        int paddingLength = findPaddingLength(frameSize);
+
+        return ByteBuffer.allocate(frameSize + paddingLength)
                          .putInt(messageType)
                          .putInt(data.length)
                          .put(data)
+                         .put(new byte[paddingLength])
                          .array();
+    }
+
+    public int findPaddingLength(int length) {
+        int paddingSize = 8 - length % 8;
+        return paddingSize == 8 ? 0 : paddingSize;
     }
 
     public int getMessageType() {

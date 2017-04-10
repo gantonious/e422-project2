@@ -34,11 +34,15 @@ public class TEAEncryptedSource implements InputOutputSource {
 
     @Override
     public byte[] read(int total) {
+//        byte[] data = wrappedInputOutputSource.read(total);
+//        teaEncryption.decrypt(data, sharedSecretKey);
+//        return data;
         return wrappedInputOutputSource.read(total);
     }
 
     @Override
     public void write(byte[] data) {
+//        teaEncryption.encrypt(data, sharedSecretKey);
         wrappedInputOutputSource.write(data);
     }
 
