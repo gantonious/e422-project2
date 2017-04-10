@@ -49,6 +49,7 @@ public class ClientMain {
             System.out.print("Filename: ");
             String userInput = System.console().readLine();
             if (userInput.equals(exitCommand)) {
+                fileClient.close();
                 break;
             }
 
