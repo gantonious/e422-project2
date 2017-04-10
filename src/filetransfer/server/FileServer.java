@@ -2,7 +2,7 @@ package filetransfer.server;
 
 import filetransfer.InputOutputSource;
 import filetransfer.InputOutputSourceFactory;
-import filetransfer.authentication.AuthenticationService;
+import filetransfer.authentication.IAuthenticationService;
 import filetransfer.protocol.FileTransferService;
 import filetransfer.shared.exceptions.SocketIOException;
 
@@ -17,10 +17,10 @@ public class FileServer {
     private static final int DEFAULT_PORT = 16000;
 
     private ServerSocket serverSocket;
-    private AuthenticationService authenticationService;
+    private IAuthenticationService authenticationService;
     private InputOutputSourceFactory inputOutputSourceFactory;
 
-    public FileServer(AuthenticationService authenticationService,
+    public FileServer(IAuthenticationService authenticationService,
                       InputOutputSourceFactory inputOutputSourceFactory) {
         this.authenticationService = authenticationService;
         this.inputOutputSourceFactory = inputOutputSourceFactory;

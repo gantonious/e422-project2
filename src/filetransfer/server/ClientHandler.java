@@ -1,6 +1,6 @@
 package filetransfer.server;
 
-import filetransfer.authentication.AuthenticationService;
+import filetransfer.authentication.IAuthenticationService;
 import filetransfer.protocol.FileTransferService;
 import filetransfer.protocol.messages.*;
 import filetransfer.utils.FileUtils;
@@ -10,10 +10,10 @@ import filetransfer.utils.FileUtils;
  */
 public class ClientHandler {
     private String fileSource = "./srv/";
-    private AuthenticationService authenticationService;
+    private IAuthenticationService authenticationService;
     private FileTransferService fileTransferService;
 
-    public ClientHandler(AuthenticationService authenticationService,
+    public ClientHandler(IAuthenticationService authenticationService,
                          FileTransferService fileTransferService) {
         this.authenticationService = authenticationService;
         this.fileTransferService = fileTransferService;
