@@ -22,6 +22,7 @@ public class ClientMain {
             authenticate(fileClient);
         } catch (AuthenticationFailedException e) {
             System.out.println("Authentication failed, exiting.");
+            return;
         }
 
         listenToFileRequests(fileClient);
