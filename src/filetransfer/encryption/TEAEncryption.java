@@ -5,5 +5,5 @@ package filetransfer.encryption;
  */
 public class TEAEncryption {
     native public void encrypt(byte[] data, byte[] key);
-    native public void decrypt(byte[] data, byte[] keyg);
+    native public void decrypt(byte[] data, byte[] key);
 }

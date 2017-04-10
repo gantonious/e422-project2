@@ -2,6 +2,7 @@ package filetransfer;
 
 
 import filetransfer.client.FileClient;
+import filetransfer.encryption.TEAEncryptedSource;
 import filetransfer.protocol.FileTransferService;
 import filetransfer.protocol.exceptions.AuthenticationFailedException;
 import filetransfer.protocol.exceptions.FileNotFoundException;
@@ -31,7 +32,8 @@ public class ClientMain {
     private static FileClient buildFileClient() throws Exception {
         Socket socket = new Socket("localhost", 16000);
         InputOutputSource socketSource = new SocketSource(socket);
-        FileTransferService fileTransferService = new FileTransferService(socketSource);
+        InputOutputSource encryptedSource = new TEAEncryptedSource(socketSource);
+        FileTransferService fileTransferService = new FileTransferService(encryptedSource);
         return new FileClient(fileTransferService);
     }
 
