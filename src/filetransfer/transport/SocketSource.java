@@ -3,6 +3,8 @@ package filetransfer.transport;
 import filetransfer.InputOutputSource;
 import filetransfer.shared.exceptions.SocketIOException;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -11,15 +13,24 @@ import java.net.Socket;
  */
 public class SocketSource implements InputOutputSource {
     private Socket socket;
+    private BufferedInputStream bufferedInputStream;
+    private BufferedOutputStream bufferedOutputStream;
 
     public SocketSource(Socket socket) {
         this.socket = socket;
+
+        try {
+            bufferedInputStream = new BufferedInputStream(socket.getInputStream());
+            bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
+        } catch (Exception e) {
+            throw new SocketIOException(e.getMessage());
+        }
     }
 
     @Override
     public byte[] read(int total) {
         try {
-            return readFrom(socket, total);
+            return readFromBuffer(total);
         } catch (IOException e) {
             throw new SocketIOException(e.getMessage());
         }
@@ -28,7 +39,7 @@ public class SocketSource implements InputOutputSource {
     @Override
     public void write(byte[] data) {
         try {
-            writeTo(socket, data);
+            writeToBuffer(data);
         } catch (IOException e) {
             throw new SocketIOException(e.getMessage());
         }
@@ -43,13 +54,27 @@ public class SocketSource implements InputOutputSource {
         }
     }
 
-    private byte[] readFrom(Socket socket, int total) throws IOException {
+    // TODO: maybe refactor if time permits
+    private byte[] readFromBuffer(int total) throws IOException {
         byte[] output = new byte[total];
-        socket.getInputStream().read(output);
+
+        int amountRead = bufferedInputStream.read(output, 0, total);
+        int totalRead = amountRead;
+        int totalToRead = total - amountRead;
+
+        while (amountRead > 0 && totalRead != total) {
+            amountRead = bufferedInputStream.read(output, totalRead, totalToRead);
+            if (amountRead > 0) {
+                totalRead += amountRead;
+                totalToRead -= amountRead;
+            }
+        }
+
         return output;
     }
 
-    private void writeTo(Socket socket, byte[] data) throws IOException {
-        socket.getOutputStream().write(data);
+    private void writeToBuffer(byte[] data) throws IOException {
+        bufferedOutputStream.write(data);
+        bufferedOutputStream.flush();
     }
 }
