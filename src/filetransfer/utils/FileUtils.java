@@ -2,6 +2,7 @@ package filetransfer.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.nio.file.Files;
 
@@ -22,6 +23,17 @@ public class FileUtils {
             return Files.readAllBytes(file.toPath());
         } catch (Exception e) {
             return new byte[0];
+        }
+    }
+
+    // From: http://stackoverflow.com/a/17042681
+    public static void writeByteArrayTo(String filename, byte[] data) {
+        try {
+            FileOutputStream outputStream = new FileOutputStream(filename);
+            outputStream.write(data);
+            outputStream.close();
+        } catch (Exception e) {
+
         }
     }
 
