@@ -2,6 +2,7 @@ package filetransfer.server;
 
 import filetransfer.InputOutputSource;
 import filetransfer.InputOutputSourceFactory;
+import filetransfer.protocol.FileTransferService;
 import filetransfer.shared.exceptions.SocketIOException;
 
 import java.io.IOException;
@@ -31,6 +32,10 @@ public class FileServer {
             try {
                 Socket clientSocket = serverSocket.accept();
                 InputOutputSource socketIOSource = inputOutputSourceFactory.buildInputOutputSourceFrom(clientSocket);
+                FileTransferService fileTransferService = new FileTransferService(socketIOSource);
+                ClientHandler clientHandler = new ClientHandler(fileTransferService);
+                Thread clientHandlerThread = new Thread(clientHandler::serveClient);
+                clientHandlerThread.start();
             } catch (IOException e) {
                 continue;
             }
