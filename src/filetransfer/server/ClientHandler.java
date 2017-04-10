@@ -3,12 +3,13 @@ package filetransfer.server;
 import filetransfer.authentication.AuthenticationService;
 import filetransfer.protocol.FileTransferService;
 import filetransfer.protocol.messages.*;
+import filetransfer.utils.FileUtils;
 
 /**
  * Created by George on 2017-04-09.
  */
 public class ClientHandler {
-    private String fileSource = ".";
+    private String fileSource = "./";
     private AuthenticationService authenticationService;
     private FileTransferService fileTransferService;
 
@@ -53,10 +54,26 @@ public class ClientHandler {
     }
 
     private void handleFileRequest(FileRequest fileRequest) {
+        String requestedFile = fileSource + fileRequest.getFileName();
 
+        if (FileUtils.doesFileExist(requestedFile)) {
+            handleFileFound(requestedFile);
+        } else {
+            handleFileNotFound();
+        }
+    }
+
+    private void handleFileFound(String requestedFile) {
+        fileTransferService.sendMessage(new FileFound());
+        byte[] rawFile = FileUtils.readFileAsByteArray(requestedFile);
+        fileTransferService.sendMessage(new FileResponse(rawFile));
+    }
+
+    private void handleFileNotFound() {
+        fileTransferService.sendMessage(new FileNotFound());
     }
 
     private void handleFinished() {
-
+        // close connection
     }
 }
