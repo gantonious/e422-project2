@@ -11,4 +11,8 @@ public class FileResponse extends Message {
     public byte[] getFile() {
         return getData();
     }
+
+    public static FileResponse from(Message message) {
+        return new FileResponse(message.getData());
+    }
 }
