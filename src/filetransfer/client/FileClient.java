@@ -54,7 +54,8 @@ public class FileClient {
         guardAgainstWrongMessageType(nextMessage, MessageTypes.FILE_RESPONSE);
 
         FileResponse fileResponse = FileResponse.from(nextMessage);
-        FileUtils.writeByteArrayTo(fileName, fileResponse.getData());
+        String outputFile = downloadDirectiory + fileName;
+        FileUtils.writeByteArrayTo(outputFile, fileResponse.getData());
     }
 
     private void guardAgainstWrongMessageType(Message message, int expectedType) {

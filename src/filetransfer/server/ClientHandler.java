@@ -46,6 +46,8 @@ public class ClientHandler {
         String username = authenticationRequest.getUsername();
         String password = authenticationRequest.getPassword();
 
+        System.out.println(String.format("Username:%s, Password:%s", username, password));
+
         if (authenticationService.isUserAuthenticated(username, password)) {
             fileTransferService.sendMessage(new AccessGranted());
         } else {
@@ -55,7 +57,7 @@ public class ClientHandler {
 
     private void handleFileRequest(FileRequest fileRequest) {
         String requestedFile = fileSource + fileRequest.getFileName();
-
+        System.out.println("Requesting: " + requestedFile);
         if (FileUtils.doesFileExist(requestedFile)) {
             handleFileFound(requestedFile);
         } else {
