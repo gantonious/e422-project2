@@ -9,7 +9,7 @@ import filetransfer.utils.FileUtils;
  * Created by George on 2017-04-09.
  */
 public class ClientHandler {
-    private String fileSource = "./";
+    private String fileSource = "./srv/";
     private AuthenticationService authenticationService;
     private FileTransferService fileTransferService;
 
