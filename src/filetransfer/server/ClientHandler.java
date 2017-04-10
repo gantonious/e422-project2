@@ -2,10 +2,7 @@ package filetransfer.server;
 
 import filetransfer.authentication.AuthenticationService;
 import filetransfer.protocol.FileTransferService;
-import filetransfer.protocol.messages.AuthenticationRequest;
-import filetransfer.protocol.messages.FileRequest;
-import filetransfer.protocol.messages.Message;
-import filetransfer.protocol.messages.MessageTypes;
+import filetransfer.protocol.messages.*;
 
 /**
  * Created by George on 2017-04-09.
@@ -44,11 +41,18 @@ public class ClientHandler {
         }
     }
 
-    private void handleFileRequest(FileRequest fileRequest) {
+    private void handleAuthenticationRequest(AuthenticationRequest authenticationRequest) {
+        String username = authenticationRequest.getUsername();
+        String password = authenticationRequest.getPassword();
 
+        if (authenticationService.isUserAuthenticated(username, password)) {
+            fileTransferService.sendMessage(new AccessGranted());
+        } else {
+            fileTransferService.sendMessage(new AccessDenied());
+        }
     }
 
-    private void handleAuthenticationRequest(AuthenticationRequest authenticationRequest) {
+    private void handleFileRequest(FileRequest fileRequest) {
 
     }
 
