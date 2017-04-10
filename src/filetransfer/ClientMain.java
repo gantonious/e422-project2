@@ -3,6 +3,8 @@ package filetransfer;
 
 import filetransfer.client.FileClient;
 import filetransfer.protocol.FileTransferService;
+import filetransfer.protocol.exceptions.AuthenticationFailedException;
+import filetransfer.protocol.exceptions.FileNotFoundException;
 import filetransfer.transport.SocketSource;
 
 import java.net.Socket;
@@ -15,7 +17,13 @@ public class ClientMain {
 
     public static void main(String[] args) throws Exception {
         FileClient fileClient = buildFileClient();
-        authenticate(fileClient);
+
+        try {
+            authenticate(fileClient);
+        } catch (AuthenticationFailedException e) {
+            System.out.println("Authentication failed, exiting.");
+        }
+
         listenToFileRequests(fileClient);
     }
 
@@ -44,7 +52,16 @@ public class ClientMain {
                 break;
             }
 
-            fileClient.downloadFile(userInput);
+            download(fileClient, userInput);
+        }
+    }
+
+    private static void download(FileClient fileClient, String filename) {
+        try {
+            fileClient.downloadFile(filename);
+            System.out.println("Successfully downloaded " + filename);
+        } catch (FileNotFoundException e) {
+            System.out.println("'" + filename + "' could not be found.");
         }
     }
 }
