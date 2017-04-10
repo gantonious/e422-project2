@@ -74,6 +74,6 @@ public class ClientHandler {
     }
 
     private void handleFinished() {
-        // close connection
+        fileTransferService.close();
     }
 }

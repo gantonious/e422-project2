@@ -34,6 +34,15 @@ public class SocketSource implements InputOutputSource {
         }
     }
 
+    @Override
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new SocketIOException(e.getMessage());
+        }
+    }
+
     private byte[] readFrom(Socket socket, int total) throws IOException {
         byte[] output = new byte[total];
         socket.getInputStream().read(output);

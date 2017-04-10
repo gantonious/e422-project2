@@ -30,4 +30,8 @@ public class FileTransferService {
     public void sendMessage(Message message) {
         inputOutputSource.write(message.toByteArray());
     }
+
+    public void close() {
+        inputOutputSource.close();
+    }
 }
