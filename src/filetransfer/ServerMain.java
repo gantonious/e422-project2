@@ -1,3 +1,5 @@
+package filetransfer;
+
 import filetransfer.InputOutputSourceFactory;
 import filetransfer.authentication.AuthenticationService;
 import filetransfer.server.FileServer;
