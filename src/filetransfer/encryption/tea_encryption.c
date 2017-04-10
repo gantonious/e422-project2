@@ -1,3 +1,42 @@
+#include "filetransfer_encryption_TEAEncryption.h"
+
+void encrypt(int *, int *);
+void decrypt(int *, int *);
+
+JNIEXPORT void JNICALL Java_filetransfer_encryption_TEAEncryption_encrypt
+  (JNIEnv *env, jobject object, jbyteArray data_array, jbyteArray key_array) {
+    int data_length;
+    int *data;
+    int *key;
+
+    jboolean *is_copy = 0;
+
+    data_length = (int) (*env)->GetArrayLength(env, data_array);
+    data = (int *) (*env)->GetIntArrayElements(env, data_array, is_copy);
+    key = (int *) (*env)->GetIntArrayElements(env, key_array, is_copy);
+
+    encrypt(data, key);
+
+    (*env)->SetByteArrayRegion(env, data_array, 0, (jsize) data_length, (jbyte*) data);
+}
+
+JNIEXPORT void JNICALL Java_filetransfer_encryption_TEAEncryption_decrypt
+  (JNIEnv *env, jobject object, jbyteArray data_array, jbyteArray key_array) {
+    int data_length;
+    int *data;
+    int *key;
+
+    jboolean *is_copy = 0;
+
+    data_length = (int) (*env)->GetArrayLength(env, data_array);
+    data = (int *) (*env)->GetIntArrayElements(env, data_array, is_copy);
+    key = (int *) (*env)->GetIntArrayElements(env, key_array, is_copy);
+
+    decrypt(data, key);
+
+    (*env)->SetByteArrayRegion(env, data_array, 0, (jsize) data_length, (jbyte*) data);
+}
+
 void encrypt (int *v, int *k){
     /* TEA encryption algorithm */
     unsigned int y = v[0], z=v[1], sum = 0;
