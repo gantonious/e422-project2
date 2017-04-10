@@ -40,7 +40,6 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     private boolean doesUserExist(String username) {
-        System.out.println(users.containsKey(username));
         return users.containsKey(username);
     }
 
@@ -89,7 +88,6 @@ public class AuthenticationService implements IAuthenticationService {
     private void saveUser(User user) {
         try {
             String serializedUser = buildLineFromUser(user);
-            System.out.println(serializedUser);
             FileWriter fw = new FileWriter(USER_ACCOUNTS_FILE, true);
             fw.write(serializedUser);
             fw.write("\n");
