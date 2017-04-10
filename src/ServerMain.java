@@ -1,5 +1,5 @@
 import filetransfer.InputOutputSourceFactory;
-import filetransfer.protocol.server.FileServer;
+import filetransfer.server.FileServer;
 import filetransfer.transport.SocketSource;
 
 /**

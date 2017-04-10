@@ -1,4 +1,4 @@
-package filetransfer.protocol.client;
+package filetransfer.client;
 
 import filetransfer.protocol.FileTransferService;
 import filetransfer.protocol.exceptions.AuthenticationFailedException;

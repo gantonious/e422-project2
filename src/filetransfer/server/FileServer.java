@@ -1,4 +1,4 @@
-package filetransfer.protocol.server;
+package filetransfer.server;
 
 import filetransfer.InputOutputSource;
 import filetransfer.InputOutputSourceFactory;
