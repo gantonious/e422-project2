@@ -20,8 +20,6 @@ public class TEAEncryptedSource implements InputOutputSource {
     public TEAEncryptedSource(InputOutputSource wrappedInputOutputSource) {
         this.wrappedInputOutputSource = wrappedInputOutputSource;
         this.teaEncryption = new TEAEncryption();
-
-        System.loadLibrary("TeaEncryption");
         executeHandShake();
     }
 
