@@ -39,7 +39,6 @@ public class FileTransferService {
     }
 
     public void sendMessage(Message message) {
-        System.out.println(Arrays.toString(message.getData()));
         inputOutputSource.write(message.toByteArray());
     }
 
