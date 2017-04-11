@@ -76,7 +76,7 @@ public class ClientHandler {
     }
 
     private String getFilePathFrom(FileRequest fileRequest) {
-        String fileName = new File(fileRequest.getFileName()).getName();
+        String fileName = new File(fileRequest.getFilePath()).getName();
         return fileSource + fileName;
     }
 

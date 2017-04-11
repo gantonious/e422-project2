@@ -8,7 +8,7 @@ public class FileRequest extends Message {
         super(MessageTypes.FILE_REQUEST, fileName);
     }
 
-    public String getFileName() {
+    public String getFilePath() {
         return getDataAsString();
     }
 
