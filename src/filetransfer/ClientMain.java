@@ -18,6 +18,7 @@ public class ClientMain {
 
     public static void main(String[] args) throws Exception {
         FileClient fileClient = buildFileClient();
+        hookIntoClientShutdown(fileClient);
 
         try {
             authenticate(fileClient);
@@ -27,7 +28,11 @@ public class ClientMain {
         }
 
         listenToFileRequests(fileClient);
-        System.out.println("Goodbye.");
+    }
+
+    private static void hookIntoClientShutdown(FileClient fileClient) {
+        Runnable shutdownTask = () -> endSession(fileClient);
+        Runtime.getRuntime().addShutdownHook(new Thread(shutdownTask));
     }
 
     private static FileClient buildFileClient() throws Exception {
@@ -54,7 +59,6 @@ public class ClientMain {
             System.out.print("Filename: ");
             String userInput = System.console().readLine();
             if (userInput.equals(exitCommand)) {
-                fileClient.close();
                 break;
             }
 
@@ -69,5 +73,10 @@ public class ClientMain {
         } catch (FileNotFoundException e) {
             System.out.println("'" + filename + "' could not be found.");
         }
+    }
+
+    private static void endSession(FileClient fileClient) {
+        fileClient.close();
+        System.out.println("Goodbye.");
     }
 }
