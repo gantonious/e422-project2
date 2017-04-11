@@ -27,6 +27,7 @@ public class ClientMain {
         }
 
         listenToFileRequests(fileClient);
+        System.out.println("Goodbye.");
     }
 
     private static FileClient buildFileClient() throws Exception {

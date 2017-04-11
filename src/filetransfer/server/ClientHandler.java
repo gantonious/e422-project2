@@ -9,9 +9,11 @@ import filetransfer.utils.FileUtils;
  * Created by George on 2017-04-09.
  */
 public class ClientHandler {
-    private String fileSource = "./srv/";
     private IAuthenticationService authenticationService;
     private FileTransferService fileTransferService;
+
+    private boolean isAlive = true;
+    private String fileSource = "./srv/";
 
     public ClientHandler(IAuthenticationService authenticationService,
                          FileTransferService fileTransferService) {
@@ -20,7 +22,7 @@ public class ClientHandler {
     }
 
     public void serveClient() {
-        while(true) {
+        while(isAlive) {
             Message message = fileTransferService.readMessage();
             handleMessage(message);
         }
@@ -73,6 +75,7 @@ public class ClientHandler {
     }
 
     private void handleFinished() {
+        isAlive = false;
         fileTransferService.close();
     }
 }
