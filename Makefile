@@ -19,7 +19,7 @@ all:
 	javac -sourcepath $(SOURCE_PATH) -d $(OUTPUT_PATH) $(SERVER_MAIN) $(CLIENT_MAIN) $(REGISTER_MAIN)
 	javah -classpath  $(OUTPUT_PATH) $(NATIVE_CLASS_NAME)
 	mv ./$(NATIVE_HEADER_NAME) $(NATIVE_METHOD_LOCATION)/$(NATIVE_HEADER_NAME)
-	gcc -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin -shared -fpic -o $(LIB_OUTPUT)/$(LIBNAME).dylib $(LIBSOURCE)
+	gcc -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin -shared -fpic -o $(LIBNAME).dylib $(LIBSOURCE)
 
 clean:
 	rm -rf $(OUTPUT_PATH)/filetransfer *.h

@@ -1,40 +1,47 @@
 #include "filetransfer_encryption_TEAEncryption.h"
+#include <stdio.h>
 
 void encrypt(int *, int *);
 void decrypt(int *, int *);
 
 JNIEXPORT void JNICALL Java_filetransfer_encryption_TEAEncryption_encrypt
   (JNIEnv *env, jobject object, jbyteArray data_array, jbyteArray key_array) {
-    int data_length;
+    jsize data_length;
     int *data;
     int *key;
 
     jboolean *is_copy = 0;
 
-    data_length = (int) (*env)->GetArrayLength(env, data_array);
-    data = (int *) (*env)->GetIntArrayElements(env, data_array, is_copy);
-    key = (int *) (*env)->GetIntArrayElements(env, key_array, is_copy);
+    data_length = (*env)->GetArrayLength(env, data_array);
+    data = (int *) (*env)->GetByteArrayElements(env, data_array, is_copy);
+    key = (int *) (*env)->GetByteArrayElements(env, key_array, is_copy);
 
-    encrypt(data, key);
+    int i = 0;
+    for (i = 0; i < data_length / 4; i+=2) {
+        encrypt(data + i, key);
+    }
 
-    (*env)->SetByteArrayRegion(env, data_array, 0, (jsize) data_length, (jbyte*) data);
+    (*env)->ReleaseByteArrayElements(env, data_array, (jbyte*) data, 0);
 }
 
 JNIEXPORT void JNICALL Java_filetransfer_encryption_TEAEncryption_decrypt
   (JNIEnv *env, jobject object, jbyteArray data_array, jbyteArray key_array) {
-    int data_length;
+    jsize data_length;
     int *data;
     int *key;
 
     jboolean *is_copy = 0;
 
     data_length = (int) (*env)->GetArrayLength(env, data_array);
-    data = (int *) (*env)->GetIntArrayElements(env, data_array, is_copy);
-    key = (int *) (*env)->GetIntArrayElements(env, key_array, is_copy);
+    data = (int *) (*env)->GetByteArrayElements(env, data_array, is_copy);
+    key = (int *) (*env)->GetByteArrayElements(env, key_array, is_copy);
 
-    decrypt(data, key);
+    int i = 0;
+    for (i = 0; i < data_length / 4; i+=2) {
+        decrypt(data + i, key);
+    }
 
-    (*env)->SetByteArrayRegion(env, data_array, 0, (jsize) data_length, (jbyte*) data);
+    (*env)->ReleaseByteArrayElements(env, data_array, (jbyte*) data, 0);
 }
 
 void encrypt (int *v, int *k){

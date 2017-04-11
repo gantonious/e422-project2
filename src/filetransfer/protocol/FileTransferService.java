@@ -4,6 +4,7 @@ import filetransfer.InputOutputSource;
 import filetransfer.protocol.messages.Message;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * Created by George on 2017-04-09.
@@ -24,10 +25,15 @@ public class FileTransferService {
         int messageLength = ByteBuffer.wrap(rawMessageLength).getInt();
         int paddedMessageLength = roundToNextMultipleOf8(messageLength);
 
+        System.out.printf("MessageType: %d\n", messageType);
+        System.out.printf("MessageLength: %d\n", messageLength);
+
         byte[] paddedRawMessageData = inputOutputSource.read(paddedMessageLength);
         byte[] rawMessageData = new byte[messageLength];
 
         System.arraycopy(paddedRawMessageData, 0, rawMessageData, 0, messageLength);
+
+        System.out.println(Arrays.toString(rawMessageData));
 
         return new Message(messageType, rawMessageData);
     }
@@ -38,6 +44,7 @@ public class FileTransferService {
     }
 
     public void sendMessage(Message message) {
+        System.out.println(Arrays.toString(message.getData()));
         inputOutputSource.write(message.toByteArray());
     }
 

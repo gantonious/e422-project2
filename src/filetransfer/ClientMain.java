@@ -32,6 +32,7 @@ public class ClientMain {
     private static FileClient buildFileClient() throws Exception {
         Socket socket = new Socket("localhost", 16000);
         InputOutputSource socketSource = new SocketSource(socket);
+        System.out.println("Establishing encrypted connection...");
         InputOutputSource encryptedSource = new TEAEncryptedSource(socketSource);
         FileTransferService fileTransferService = new FileTransferService(encryptedSource);
         return new FileClient(fileTransferService);
