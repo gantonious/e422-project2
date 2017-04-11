@@ -4,6 +4,7 @@ import filetransfer.authentication.IAuthenticationService;
 import filetransfer.protocol.FileTransferService;
 import filetransfer.protocol.messages.*;
 import filetransfer.server.exceptions.ClientNotAuthenticatedException;
+import filetransfer.shared.exceptions.SocketIOException;
 import filetransfer.utils.FileUtils;
 
 /**
@@ -25,8 +26,12 @@ public class ClientHandler {
 
     public void serveClient() {
         while(isAlive) {
-            Message message = fileTransferService.readMessage();
-            handleMessage(message);
+            try {
+                Message message = fileTransferService.readMessage();
+                handleMessage(message);
+            } catch (SocketIOException e) {
+                return;
+            }
         }
     }
 
