@@ -27,7 +27,16 @@ public class ClientMain {
             return;
         }
 
+        welcomeUser();
         listenToFileRequests(fileClient);
+    }
+
+    private static void welcomeUser() {
+        System.out.println();
+        System.out.println("Welcome to FileTransferServer 1.0!");
+        System.out.println("Type '/q' to quit");
+        System.out.println("Type a filename to request that file.");
+        System.out.println("-------------");
     }
 
     private static void hookIntoClientShutdown(FileClient fileClient) {
@@ -77,6 +86,6 @@ public class ClientMain {
 
     private static void endSession(FileClient fileClient) {
         fileClient.close();
-        System.out.println("Goodbye.");
+        System.out.println("\nGoodbye.");
     }
 }
