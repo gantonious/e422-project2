@@ -7,6 +7,8 @@ import filetransfer.server.exceptions.ClientNotAuthenticatedException;
 import filetransfer.shared.exceptions.SocketIOException;
 import filetransfer.utils.FileUtils;
 
+import java.io.File;
+
 /**
  * Created by George on 2017-04-09.
  */
@@ -65,12 +67,17 @@ public class ClientHandler {
     }
 
     private void handleFileRequest(FileRequest fileRequest) {
-        String requestedFile = fileSource + fileRequest.getFileName();
+        String requestedFile = getFilePathFrom(fileRequest);
         if (FileUtils.doesFileExist(requestedFile)) {
             handleFileFound(requestedFile);
         } else {
             handleFileNotFound();
         }
+    }
+
+    private String getFilePathFrom(FileRequest fileRequest) {
+        String fileName = new File(fileRequest.getFileName()).getName();
+        return fileSource + fileName;
     }
 
     private void handleFileFound(String requestedFile) {
