@@ -3,6 +3,7 @@ package filetransfer.server;
 import filetransfer.authentication.IAuthenticationService;
 import filetransfer.protocol.FileTransferService;
 import filetransfer.protocol.messages.*;
+import filetransfer.server.exceptions.ClientNotAuthenticatedException;
 import filetransfer.utils.FileUtils;
 
 /**
@@ -13,6 +14,7 @@ public class ClientHandler {
     private FileTransferService fileTransferService;
 
     private boolean isAlive = true;
+    private boolean isAuthenticated = false;
     private String fileSource = "./srv/";
 
     public ClientHandler(IAuthenticationService authenticationService,
@@ -34,6 +36,7 @@ public class ClientHandler {
                 handleAuthenticationRequest(AuthenticationRequest.from(message));
                 break;
             case MessageTypes.FILE_REQUEST:
+                checkForAuthentication();
                 handleFileRequest(FileRequest.from(message));
                 break;
             case MessageTypes.FINISHED:
@@ -50,6 +53,7 @@ public class ClientHandler {
 
         if (authenticationService.isUserAuthenticated(username, password)) {
             fileTransferService.sendMessage(new AccessGranted());
+            isAuthenticated = true;
         } else {
             fileTransferService.sendMessage(new AccessDenied());
         }
@@ -77,5 +81,11 @@ public class ClientHandler {
     private void handleFinished() {
         isAlive = false;
         fileTransferService.close();
+    }
+
+    private void checkForAuthentication() {
+        if (!isAuthenticated) {
+            throw new ClientNotAuthenticatedException();
+        }
     }
 }
