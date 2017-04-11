@@ -25,15 +25,10 @@ public class FileTransferService {
         int messageLength = ByteBuffer.wrap(rawMessageLength).getInt();
         int paddedMessageLength = roundToNextMultipleOf8(messageLength);
 
-        System.out.printf("MessageType: %d\n", messageType);
-        System.out.printf("MessageLength: %d\n", messageLength);
-
         byte[] paddedRawMessageData = inputOutputSource.read(paddedMessageLength);
         byte[] rawMessageData = new byte[messageLength];
 
         System.arraycopy(paddedRawMessageData, 0, rawMessageData, 0, messageLength);
-
-        System.out.println(Arrays.toString(rawMessageData));
 
         return new Message(messageType, rawMessageData);
     }

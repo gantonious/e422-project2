@@ -17,7 +17,9 @@ JNIEXPORT void JNICALL Java_filetransfer_encryption_TEAEncryption_encrypt
     key = (int *) (*env)->GetByteArrayElements(env, key_array, is_copy);
 
     int i = 0;
-    for (i = 0; i < data_length / 4; i+=2) {
+    int total_passes = data_length / 4;
+
+    for (i = 0; i < total_passes; i+=2) {
         encrypt(data + i, key);
     }
 
@@ -32,12 +34,14 @@ JNIEXPORT void JNICALL Java_filetransfer_encryption_TEAEncryption_decrypt
 
     jboolean *is_copy = 0;
 
-    data_length = (int) (*env)->GetArrayLength(env, data_array);
+    data_length = (*env)->GetArrayLength(env, data_array);
     data = (int *) (*env)->GetByteArrayElements(env, data_array, is_copy);
     key = (int *) (*env)->GetByteArrayElements(env, key_array, is_copy);
 
     int i = 0;
-    for (i = 0; i < data_length / 4; i+=2) {
+    int total_passes = data_length / 4;
+
+    for (i = 0; i < total_passes; i+=2) {
         decrypt(data + i, key);
     }
 
